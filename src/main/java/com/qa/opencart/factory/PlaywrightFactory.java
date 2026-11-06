@@ -43,6 +43,7 @@ public class PlaywrightFactory {
         String browserName = prop.getProperty("browser").trim();
         System.out.println("browser name is:" +browserName);
 
+        System.out.println("SELENIUM_REMOTE_URL: " + System.getenv("SELENIUM_REMOTE_URL"));
         tlPlaywright.set(Playwright.create());
 
         switch (browserName.toLowerCase()){
