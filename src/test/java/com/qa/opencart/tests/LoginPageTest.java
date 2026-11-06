@@ -22,7 +22,7 @@ public class LoginPageTest extends BaseTest {
 
     @Test(priority = 3)
     public void appLoginTest(){
-        Assert.assertFalse(loginPage.doLogin(prop.getProperty("username").trim(),
+        Assert.assertTrue(loginPage.doLogin(prop.getProperty("username").trim(),
                 prop.getProperty("password").trim()));
     }
 
