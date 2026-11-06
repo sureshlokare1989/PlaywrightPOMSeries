@@ -72,6 +72,7 @@ public class ExtentReportListener implements ITestListener {
         System.out.println(("Test Suite is ending!"));
         extent.flush();
         test.remove();
+        System.out.println("EXTENT REPORT GENERATED SUCCESSFULLY");
     }
 
     @Override
@@ -94,6 +95,7 @@ public class ExtentReportListener implements ITestListener {
         extentTest.assignCategory(className);
         test.set(extentTest);
         test.get().getModel().setStartTime(getTime(result.getStartMillis()));
+        System.out.println("EXTENT REPORT LISTENER STARTED");
     }
 
     public synchronized void onTestSuccess(ITestResult result) {
