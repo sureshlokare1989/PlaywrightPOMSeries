@@ -54,7 +54,7 @@
 
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng_regression.xml</suiteXmlFile>
+                        <suiteXmlFile>testng_regression.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
 
