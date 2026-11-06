@@ -16,17 +16,22 @@
 
     <dependencies>
         <dependency>
+
+            <!-- Playwright -->
             <groupId>com.microsoft.playwright</groupId>
             <artifactId>playwright</artifactId>
             <version>1.64.0</version>
         </dependency>
 
         <dependency>
+
+            <!-- TestNG -->
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.10.2</version> <!-- Use test scope to confine it to test directories -->
             <scope>test</scope>
         </dependency>
+        <!-- extent report -->
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
