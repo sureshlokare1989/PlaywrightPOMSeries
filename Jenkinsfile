@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 dir('APIautomationCW') {
-                    git branch: 'main',
+                    git branch: 'master',
                             url: 'https://github.com/sureshlokare1989/APIautomationCW.git'
 
                     bat 'mvn clean package -Dmaven.test.failure.ignore=true'
@@ -43,7 +43,7 @@ pipeline {
                         stageResult: 'FAILURE') {
 
                     dir('PlaywrightPOMSeries') {
-                        git branch: 'main',
+                        git branch: 'master',
                                 url: 'https://github.com/sureshlokare1989/PlaywrightPOMSeries.git'
 
                         bat 'mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml'
