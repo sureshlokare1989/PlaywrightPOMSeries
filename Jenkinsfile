@@ -1,60 +1,76 @@
-pipeline
-{
+
+pipeline {
     agent any
 
-    tools{
-    	maven 'MAVEN_HOME'
-        }
+    tools {
+        maven 'MAVEN_HOME'
+    }
 
-    stages
-    {
-        stage('Build')
-        {
-            steps
-            {
-                 git 'https://github.com/sureshlokare1989/APIautomationCW.git'
-                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
+    stages {
+
+        stage('Build') {
+            steps {
+                dir('APIautomationCW') {
+                    git branch: 'main',
+                            url: 'https://github.com/sureshlokare1989/APIautomationCW.git'
+
+                    bat 'mvn clean package -Dmaven.test.failure.ignore=true'
+                }
             }
-            post
-            {
-                success
-                {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
+
+            post {
+                always {
+                    junit allowEmptyResults: true,
+                            testResults: 'APIautomationCW/target/surefire-reports/TEST-*.xml'
+                }
+
+                success {
+                    archiveArtifacts artifacts: 'APIautomationCW/target/*.jar',
+                            allowEmptyArchive: true
                 }
             }
         }
 
-
-
-        stage("Deploy to QA"){
-            steps{
-                echo("deploy to qa")
+        stage('Deploy to QA') {
+            steps {
+                echo 'Deploying to QA environment'
             }
         }
 
         stage('Regression Automation Test') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    git 'https://github.com/sureshlokare1989/PlaywrightPOMSeries'
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regressions.xml"
+                catchError(buildResult: 'SUCCESS',
+                        stageResult: 'FAILURE') {
 
+                    dir('PlaywrightPOMSeries') {
+                        git branch: 'main',
+                                url: 'https://github.com/sureshlokare1989/PlaywrightPOMSeries.git'
+
+                        bat 'mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml'
+                    }
+                }
+            }
+
+            post {
+                always {
+                    junit allowEmptyResults: true,
+                            testResults: 'PlaywrightPOMSeries/target/surefire-reports/TEST-*.xml'
                 }
             }
         }
 
-
-        stage('Publish Extent Report'){
-            steps{
-                     publishHTML([allowMissing: false,
-                                  alwaysLinkToLastBuild: false,
-                                  keepAll: true,
-                                  reportDir: 'build',
-                                  reportFiles: 'TestExecutionReport.html',
-                                  reportName: 'HTML Extent Report',
-                                  reportTitles: ''])
+        stage('Publish Extent Report') {
+            steps {
+                publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'PlaywrightPOMSeries/build',
+                        reportFiles: 'TestExecutionReport.html',
+                        reportName: 'HTML Extent Report',
+                        reportTitles: ''
+                ])
             }
         }
-
     }
 }
