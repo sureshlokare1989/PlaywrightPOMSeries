@@ -12,7 +12,7 @@ pipeline
         {
             steps
             {
-                 git 'https://github.com/sureshlokare1989/APIautomationCW'
+                 git 'https://github.com/sureshlokare1989/APIautomationCW.git'
                  sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
             post
