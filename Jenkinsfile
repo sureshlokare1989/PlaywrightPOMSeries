@@ -12,7 +12,7 @@ pipeline
         {
             steps
             {
-                 git 'https://github.com/sureshlokare1989/APIautomationCW.git'
+                 git 'https://github.com/sureshlokare1989/APIautomationCW'
                  sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
             post
@@ -36,7 +36,7 @@ pipeline
         stage('Regression Automation Test') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    git 'https://github.com/naveenanimation20/Playwright-Java-PageObjectModel'
+                    git 'https://github.com/sureshlokare1989/PlaywrightPOMSeries'
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regressions.xml"
 
                 }
